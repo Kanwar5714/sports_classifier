@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Image Classifier</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .card {
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: white;
+        }
+        .btn-upload {
+            background-color: #007bff;
+            color: white;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .btn-upload:hover {
+            background-color: #0056b3;
+        }
+        .uploaded-image {
+            margin-top: 20px;
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .result-box {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="mb-4">⚽ Sports Image Classifier 🏀</h1>
+    <div class="card mx-auto" style="max-width: 500px;">
+        <form action="/" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" class="form-control mb-3" required>
+            <button type="submit" class="btn btn-upload">Upload & Predict</button>
+        </form>
+
+        {% if prediction %}
+            <div class="mt-4">
+                <span class="result-box">Prediction: {{ prediction }}</span>
+                <img src="{{ url_for('send_uploaded_file', filename=filename) }}" alt="Uploaded Image" class="uploaded-image">
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
