@@ -22,8 +22,19 @@ app.config["STATIC_FOLDER"] = STATIC_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(STATIC_FOLDER, exist_ok=True)
 
-@app.route("/", methods=["GET", "POST"])
-def upload_file():
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+@app.route("/description")
+def description():
+    return render_template("description.html")
+
+@app.route("/predict", methods=["GET", "POST"])
+def predict():
+    prediction = None
+    filename = None
+
     if request.method == "POST":
         file = request.files["file"]
         if file:
@@ -38,17 +49,14 @@ def upload_file():
             img_array = np.expand_dims(img_array, axis=0)
 
             predictions = model.predict(img_array)
-            predicted_class = class_labels[np.argmax(predictions)]
+            prediction = class_labels[np.argmax(predictions)]
+            filename = file.filename
 
-            return render_template("index.html", prediction=predicted_class, filename=file.filename)
-
-    return render_template("index.html", prediction=None, filename=None)
+    return render_template("predict.html", prediction=prediction, filename=filename)
 
 @app.route('/static/uploads/<filename>')
 def send_uploaded_file(filename):
     return send_from_directory(app.config["STATIC_FOLDER"], filename)
 
-# ✅ Make it Render-compatible
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(debug=True)

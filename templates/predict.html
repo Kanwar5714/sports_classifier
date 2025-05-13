@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>🎯 Predict Sports Object</h2>
+<form method="POST" enctype="multipart/form-data">
+  <div class="mb-3">
+    <input class="form-control" type="file" name="file" required>
+  </div>
+  <button type="submit" class="btn btn-success">Predict</button>
+</form>
+
+{% if prediction %}
+  <div class="mt-4 text-center">
+    <h4>Prediction: <strong>{{ prediction }}</strong></h4>
+    <img src="{{ url_for('send_uploaded_file', filename=filename) }}" class="img-thumbnail mt-3" width="300">
+  </div>
+{% endif %}
+{% endblock %}
